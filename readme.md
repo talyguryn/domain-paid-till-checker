@@ -1,4 +1,4 @@
-# Domain Paid-Till Date Checker
+# Domain Paid-Till Checker
 
 A minimalist microservice built with **Express**. Check domain WHOIS expiry dates via a simple HTTP GET request.
 
