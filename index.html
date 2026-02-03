@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Domain Paid Till Checker</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0f1115;
+        --card: #171a21;
+        --text: #e6e8ef;
+        --muted: #a7adbb;
+        --accent: #5aa9ff;
+        --border: #2a2f3a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+      }
+      .card {
+        width: min(720px, 92vw);
+        margin: 24px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+      h1 {
+        margin: 0 0 12px 0;
+        font-size: 22px;
+      }
+      p {
+        margin: 0 0 16px 0;
+        color: var(--muted);
+      }
+      form {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      input {
+        flex: 1 1 260px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #0c0f14;
+        color: var(--text);
+        font-size: 14px;
+      }
+      button {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--accent);
+        color: #0b0e13;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      pre {
+        margin-top: 16px;
+        padding: 16px;
+        background: #0c0f14;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: auto;
+      }
+      .status {
+        margin-top: 18px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Get domain paid‑till date</h1>
+      <p>Enter a domain or URL to check WHOIS expiry</p>
+      <form id="form">
+        <input
+          id="domain"
+          name="domain"
+          placeholder="example.com"
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Check</button>
+      </form>
+      <div class="status" id="status">Response</div>
+      <pre id="output">{}</pre>
+    </div>
+
+    <script>
+      const form = document.getElementById("form");
+      const output = document.getElementById("output");
+      const status = document.getElementById("status");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const domain = document.getElementById("domain").value.trim();
+        if (!domain) return;
+
+        status.textContent = "Checking...";
+        output.textContent = "";
+
+        try {
+          const res = await fetch(`/check?domain=${encodeURIComponent(domain)}`);
+          const data = await res.json();
+          status.textContent = `HTTP ${res.status}`;
+          output.textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+          status.textContent = "Request failed";
+          output.textContent = String(err);
+        }
+      });
+    </script>
+  </body>
+</html>

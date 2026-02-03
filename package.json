@@ -1,0 +1,15 @@
+{
+  "name": "domain-paid-till-checker",
+  "version": "1.0.0",
+  "description": "Simple whois paid-till checker",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "parse-whois": "^1.0.0",
+    "whois": "^2.16.1"
+  }
+}
